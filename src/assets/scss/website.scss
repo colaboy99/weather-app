@@ -1,0 +1,19 @@
+/* -------------------- */
+/* IMPORTS */
+/* -------------------- */
+@import "variables", "fonts";
+
+/* -------------------- */
+/* GLOBAL */
+/* -------------------- */
+
+*,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button {
+  font-family: "Raleway", sans-serif;
+}
