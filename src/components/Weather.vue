@@ -28,23 +28,55 @@
       </div>
     </div>
     <div class="weather-type">
-      <img src="@/assets/img/Shower.png" alt="Shower" />
+      <img
+        :src="
+          require('@/assets/img/' +
+            Weather.consolidated_weather[0].weather_state_name.replace(
+              / /g,
+              ''
+            ) +
+            '.png')
+        "
+        alt="Shower"
+      />
     </div>
-    <h2 class="weather-temp">15<span class="degree">°C</span></h2>
-    <h4 class="weather-name">Shower</h4>
+    <h2 class="weather-temp">
+      {{ parseInt(Weather.consolidated_weather[0].the_temp)
+      }}<span class="degree">°C</span>
+    </h2>
+    <h4 class="weather-name">
+      {{ Weather.consolidated_weather[0].weather_state_name }}
+    </h4>
     <div class="weather-date-location">
-      <p class="weather-date"><span>Today</span> · <span>Fri, 5 Jun</span></p>
+      <p class="weather-date">
+        <span>Today</span> ·
+        <span>
+          {{
+            moment(Weather.consolidated_weather[0].applicable_date).format(
+              "ddd , DD MMM"
+            )
+          }}</span
+        >
+      </p>
       <p class="weather-location">
         <span class="material-icons-round"> location_on </span>
-        <span>Helsinki</span>
+        <span>{{ Weather.title }}</span>
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "Weather",
+  props: {
+    Weather: Object,
+  },
+  created() {
+    this.moment = moment;
+  },
   data: function () {
     return {
       isOpen: false,

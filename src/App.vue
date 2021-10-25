@@ -1,7 +1,7 @@
 <template>
-  <div id="container">
+  <div id="container" v-if="this.$store.state.dataSatatus">
     <div class="container-left-side">
-      <Weather />
+      <Weather :Weather="AllWeather" />
     </div>
     <div class="container-right-side">
       <div class="weather-additional-info">
@@ -9,9 +9,9 @@
           <button id="celsius" class="active">°C</button>
           <button id="fahrenheit">°F</button>
         </div>
-        <DaysInfo />
+        <DaysInfo :Weather="AllWeather" />
         <h4 class="hightlights-title">Today's Hightlights</h4>
-        <Hightlights />
+        <Hightlights :Weather="AllWeather" />
         <p class="copyright">
           created by <a href="https://github.com/colaboy99">Colaboy99</a> -
           devChallenges.io
@@ -19,21 +19,60 @@
       </div>
     </div>
   </div>
+  <div id="loading" v-else>
+    <div class="loader">
+      <div class="face face1">
+        <div class="circle"></div>
+      </div>
+      <div class="face face2">
+        <div class="circle"></div>
+      </div>
+    </div>
+    <span class="material-icons loading-center"> cloud </span>
+  </div>
 </template>
 
 <script>
 import Weather from "@/components/Weather";
 import Hightlights from "@/components/Hightlights";
 import DaysInfo from "@/components/DaysInfo";
-
+import { mapState } from "vuex";
+import store from "@/store/index.js";
 
 export default {
   name: "App",
+  data: function () {
+    return {};
+  },
   components: {
     Weather,
     Hightlights,
-    DaysInfo
+    DaysInfo,
   },
+  created() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function (position) {
+          //position.coords.latitude + position.coords.longitude
+          let positions = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+          store.dispatch("WeatherByLocation", positions);
+        },
+        function (error) {
+          if (error.code == 1) {
+            store.dispatch("WeatherDefault");
+          }
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  },
+  mounted() {},
+  methods: {},
+  computed: mapState(["AllWeather"]),
 };
 </script>
 
@@ -153,6 +192,105 @@ export default {
         justify-content: space-between;
       }
     }
+  }
+}
+
+#loading {
+  margin: 0;
+  padding: 0;
+  background-color: $primary;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    box-sizing: border-box;
+
+    .face {
+      position: absolute;
+      border: 2px solid $secondary;
+
+      &.face1 {
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-shadow: 0 0 10px rgba(30, 33, 58, 1);
+        border-radius: 50%;
+        border-left: 2px solid #ffec65;
+        border-top: 2px solid #ffec65;
+        animation: animate-rotate 3s linear infinite;
+
+        .circle {
+          transform: rotate(-45deg);
+
+          &::before {
+            background-color: #ffec65;
+            box-shadow: 0 0 20px #ffec65, 0 0 40px #ffec65, 0 0 60px #ffec65,
+              0 0 80px #ffec65, 0 0 100px #ffec65,
+              0 0 0 5px rgba(255, 236, 101, 0.1);
+          }
+        }
+      }
+
+      &.face2 {
+        top: 30px;
+        left: 30px;
+        right: 30px;
+        bottom: 30px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+        border-radius: 50%;
+        border-right: 2px solid #ade8ff;
+        border-bottom: 2px solid #ade8ff;
+        animation: animate-rotate 3s linear reverse infinite;
+
+        .circle {
+          transform: rotate(-45deg);
+
+          &::before {
+            background-color: #ade8ff;
+            box-shadow: 0 0 20px #ade8ff, 0 0 40px #ade8ff, 0 0 60px #ade8ff,
+              0 0 80px #ade8ff, 0 0 100px #ade8ff,
+              0 0 0 5px rgba(173, 232, 255, 0.1);
+          }
+        }
+      }
+
+      .circle {
+        position: absolute;
+        top: calc(50% - 1px);
+        left: 50%;
+        width: 50%;
+        height: 2px;
+        transform-origin: left;
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          background-color: #fff;
+          top: -4px;
+          right: -6px;
+        }
+      }
+    }
+  }
+
+  .loading-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    color: #fff;
   }
 }
 </style>
