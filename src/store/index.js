@@ -3,15 +3,20 @@ import axios from "axios";
 
 export default createStore({
   state: {
-    SearchLocation: [],
+    AllLocation: [],
     AllWeather: [],
-    dataSatatus: false,
+    dataStatus: false,
+    LocationStatus: false
   },
   mutations: {
     SET_WEATHER(state, weatherData) {
       state.AllWeather = weatherData;
-      state.dataSatatus = true;
+      state.dataStatus = true;
     },
+    SET_LOCATION(state, locationData) {
+      state.AllLocation = locationData;
+      state.LocationStatus = true;
+    }
   },
   actions: {
     WeatherDefault({ commit }) {
@@ -20,6 +25,7 @@ export default createStore({
           "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/44418"
         )
         .then((response) => {
+          console.log("here")
           commit("SET_WEATHER", response.data);
         });
     },
@@ -37,6 +43,18 @@ export default createStore({
             .then((response) => {
               commit("SET_WEATHER", response.data);
             });
+        });
+    },
+    SearchLocations({ commit }, name) {
+      axios
+        .get(
+          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${name.replace(
+            /\s/g,
+            "%20"
+          )}`
+        )
+        .then((response) => {
+          commit("SET_LOCATION", response.data);
         });
     },
   },

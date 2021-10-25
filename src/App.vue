@@ -1,5 +1,5 @@
 <template>
-  <div id="container" v-if="this.$store.state.dataSatatus">
+  <div id="container" v-if="this.$store.state.dataStatus">
     <div class="container-left-side">
       <Weather :Weather="AllWeather" />
     </div>

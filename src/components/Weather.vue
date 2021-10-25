@@ -12,19 +12,26 @@
           close
         </span>
         <div class="search-input">
-          <input type="text" placeholder="search location" />
-          <button class="serach-location">Search</button>
+          <input
+            type="text"
+            placeholder="search location"
+            v-model="searchContent"
+          />
+          <button class="serach-location" @click="SearchLocation">
+            Search
+          </button>
         </div>
-        <ul class="location-list">
-          <li class="location-item">
-            <span class="location-name">London</span
-            ><span class="material-icons-round"> chevron_right </span>
-          </li>
-          <li class="location-item">
-            <span class="location-name">Barcelona</span
+        <ul class="location-list" v-if="this.$store.state.LocationStatus">
+          <li
+            class="location-item"
+            v-for="(location, index) in AllLocation"
+            :key="index"
+          >
+            <span class="location-name">{{ location.title }}</span
             ><span class="material-icons-round"> chevron_right </span>
           </li>
         </ul>
+        <ul v-else></ul>
       </div>
     </div>
     <div class="weather-type">
@@ -68,6 +75,7 @@
 
 <script>
 import moment from "moment";
+import { mapState } from "vuex";
 
 export default {
   name: "Weather",
@@ -80,13 +88,18 @@ export default {
   data: function () {
     return {
       isOpen: false,
+      searchContent: "",
     };
   },
   methods: {
     OpenSearch: function () {
       this.isOpen = !this.isOpen;
     },
+    SearchLocation: function () {
+      this.$store.dispatch("SearchLocations", this.searchContent);
+    }
   },
+  computed: mapState(["AllLocation"]),
 };
 </script>
 
@@ -211,10 +224,16 @@ export default {
 
       .location-list {
         width: 100%;
-        height: 100%;
+        height: 75%;
         list-style: none;
-        margin: 60px 0 0 0;
-        padding: 0;
+        padding: 60px 0;
+        overflow: scroll;
+        -ms-overflow-style: none; /* for Internet Explorer, Edge */
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
 
         .location-item {
           box-sizing: border-box;
