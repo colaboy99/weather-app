@@ -22,7 +22,7 @@ export default createStore({
     WeatherDefault({ commit }) {
       axios
         .get(
-          "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/44418"
+          "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/44418/"
         )
         .then((response) => {
           console.log("here")
