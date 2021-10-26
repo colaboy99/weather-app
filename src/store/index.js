@@ -22,7 +22,7 @@ export default createStore({
     WeatherDefault({ commit }) {
       axios
         .get(
-          "https://www.metaweather.com/api/location/44418/"
+          "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/44418/"
         )
         .then((response) => {
           console.log("here")
@@ -32,13 +32,13 @@ export default createStore({
     WeatherByLocation({ commit }, positions) {
       axios
         .get(
-          `https://www.metaweather.com/api/location/search/?lattlong=${positions.latitude},${positions.longitude}`
+          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?lattlong=${positions.latitude},${positions.longitude}`
         )
         .then((response) => {
           let woeid = response.data[0].woeid;
           axios
             .get(
-              `https://www.metaweather.com/api/location/${woeid}`
+              `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}`
             )
             .then((response) => {
               commit("SET_WEATHER", response.data);
@@ -48,7 +48,7 @@ export default createStore({
     SearchLocations({ commit }, name) {
       axios
         .get(
-          `https://www.metaweather.com/api/location/search/?query=${name.replace(
+          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${name.replace(
             /\s/g,
             "%20"
           )}`
