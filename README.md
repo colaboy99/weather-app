@@ -1,6 +1,6 @@
 <!-- Please update value in the {}  -->
 
-<h1 align="center">Weather App</h1>
+<h1 align="center">Weather App {Work In Progress}</h1>
 
 <div align="center">
    Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
@@ -8,11 +8,11 @@
 
 <div align="center">
   <h3>
-    <a href="https://{your-demo-link.your-domain}">
+    <a href="https://colaboy99.github.io/weather-app/">
       Demo
     </a>
     <span> | </span>
-    <a href="https://{your-url-to-the-solution}">
+    <a href="https://github.com/colaboy99/weather-app/">
       Solution
     </a>
     <span> | </span>
@@ -36,6 +36,8 @@
 <!-- OVERVIEW -->
 
 ## Overview
+
+Before view Demo, go first to <a href="https://cors-anywhere.herokuapp.com/corsdemo" target="_blank">Cors-anywhere</a> and click on a button.
 
 ![screenshot](https://user-images.githubusercontent.com/16707738/92399059-5716eb00-f132-11ea-8b14-bcacdc8ec97b.png)
 
