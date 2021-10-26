@@ -3,7 +3,8 @@
 <h1 align="center">Weather App {Work In Progress}</h1>
 
 <div align="center">
-   Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.
+   Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.<br />
+   Before view Demo, go first to <a href="https://cors-anywhere.herokuapp.com/corsdemo" target="_blank">Cors-anywhere</a> and click on a button.
 </div>
 
 <div align="center">
@@ -36,8 +37,6 @@
 <!-- OVERVIEW -->
 
 ## Overview
-
-Before view Demo, go first to <a href="https://cors-anywhere.herokuapp.com/corsdemo" target="_blank">Cors-anywhere</a> and click on a button.
 
 ![screenshot](https://user-images.githubusercontent.com/16707738/92399059-5716eb00-f132-11ea-8b14-bcacdc8ec97b.png)
 
