@@ -4,7 +4,7 @@
 
 <div align="center">
    Solution for a challenge from  <a href="http://devchallenges.io" target="_blank">Devchallenges.io</a>.<br />
-   Before view Demo, go first to <a href="https://cors-anywhere.herokuapp.com/corsdemo" target="_blank">Cors-anywhere</a> and click on a button.
+   From February 1st. 2021, cors-anywhere.herokuapp.com will only serve requests after the visitor has completed a challenge: The user (developer) must visit a page at <a href="https://cors-anywhere.herokuapp.com" target="_blank">cors-anywhere.herokuapp.com</a> to temporarily unlock the demo for their browser. This allows developers to try out the functionality, to help with deciding on self-hosting or looking for alternatives. <br /><b>see:</b> https://github.com/Rob--W/cors-anywhere/issues/301
 </div>
 
 <div align="center">
