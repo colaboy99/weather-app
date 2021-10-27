@@ -4,7 +4,7 @@
       <button class="search-button" @click="OpenSearch">
         Seach for places
       </button>
-      <button class="location-button">
+      <button class="location-button" @click="WeatherByPosition">
         <span class="material-icons-round"> my_location </span>
       </button>
       <div :class="[{ opened: isOpen }, 'search-location-list']">
@@ -26,6 +26,7 @@
             class="location-item"
             v-for="(location, index) in AllLocation"
             :key="index"
+            @click="WeatherByLocation(location.woeid)"
           >
             <span class="location-name">{{ location.title }}</span
             ><span class="material-icons-round"> chevron_right </span>
@@ -49,7 +50,8 @@
     </div>
     <h2 class="weather-temp">
       {{ parseInt(Weather.consolidated_weather[0].the_temp)
-      }}<span class="degree">°C</span>
+      }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span>
     </h2>
     <h4 class="weather-name">
       {{ Weather.consolidated_weather[0].weather_state_name }}
@@ -76,6 +78,7 @@
 <script>
 import moment from "moment";
 import { mapState } from "vuex";
+import store from "@/store/index.js";
 
 export default {
   name: "Weather",
@@ -96,10 +99,39 @@ export default {
       this.isOpen = !this.isOpen;
     },
     SearchLocation: function () {
-      this.$store.dispatch("SearchLocations", this.searchContent);
-    }
+      store.dispatch("SearchLocations", this.searchContent);
+    },
+    WeatherByLocation: function (woeid) {
+      store.state.dataStatus = false;
+      store.dispatch("WeatherByLocation", woeid);
+      this.isOpen = !this.isOpen;
+    },
+    WeatherByPosition: function () {
+      store.state.dataStatus = false;
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            //position.coords.latitude + position.coords.longitude
+            let positions = {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude,
+            };
+            store.dispatch("SearchPosition", positions);
+          },
+          function (error) {
+            if (error.code == 1) {
+              alert(
+                "Sorry, You denied Geolocation permissions! Please reset permissions!"
+              );
+            }
+          }
+        );
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    },
   },
-  computed: mapState(["AllLocation"]),
+  computed: mapState(["AllLocation","DegreeCelsius"]),
 };
 </script>
 

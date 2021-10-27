@@ -6,8 +6,8 @@
     <div class="container-right-side">
       <div class="weather-additional-info">
         <div class="change-temp-buttons">
-          <button id="celsius" class="active">°C</button>
-          <button id="fahrenheit">°F</button>
+          <button id="celsius" :class="{ active: DegreeCelsius }" @click="ChangeDegree">°C</button>
+          <button id="fahrenheit" :class="{ active: !DegreeCelsius }" @click="ChangeDegree">°F</button>
         </div>
         <DaysInfo :Weather="AllWeather" />
         <h4 class="hightlights-title">Today's Hightlights</h4>
@@ -42,7 +42,8 @@ import store from "@/store/index.js";
 export default {
   name: "App",
   data: function () {
-    return {};
+    return {
+    };
   },
   components: {
     Weather,
@@ -58,7 +59,7 @@ export default {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           };
-          store.dispatch("WeatherByLocation", positions);
+          store.dispatch("SearchPosition", positions);
         },
         function (error) {
           if (error.code == 1) {
@@ -71,8 +72,12 @@ export default {
     }
   },
   mounted() {},
-  methods: {},
-  computed: mapState(["AllWeather"]),
+  methods: {
+    ChangeDegree: function () {
+      store.commit('ChangeDegree')
+    }
+  },
+  computed: mapState(["AllWeather","DegreeCelsius"]),
 };
 </script>
 
@@ -127,10 +132,12 @@ export default {
           background-color: $text-dark-secondary;
           border: none;
           border-radius: 20px;
+          cursor: pointer;
 
           &.active {
             color: $primary;
             background-color: $text-light-primary;
+            pointer-events: none;
           }
         }
       }

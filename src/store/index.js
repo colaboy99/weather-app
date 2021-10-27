@@ -6,17 +6,37 @@ export default createStore({
     AllLocation: [],
     AllWeather: [],
     dataStatus: false,
-    LocationStatus: false
+    LocationStatus: false,
+    DegreeCelsius: true,
   },
   mutations: {
     SET_WEATHER(state, weatherData) {
       state.AllWeather = weatherData;
       state.dataStatus = true;
+      console.log(state.AllWeather);
     },
     SET_LOCATION(state, locationData) {
       state.AllLocation = locationData;
       state.LocationStatus = true;
-    }
+    },
+    ChangeDegree(state) {
+      state.DegreeCelsius = !state.DegreeCelsius
+      if (state.DegreeCelsius) {
+        state.AllWeather.consolidated_weather.forEach(weather => {
+          weather.the_temp = (weather.the_temp - 32)/1.8
+          weather.max_temp = (weather.max_temp - 32)/1.8
+          weather.min_temp = (weather.min_temp - 32)/1.8
+
+        });
+        //state.AllWeather.consolidated_weather[0].the_temp = (state.AllWeather.consolidated_weather[0].the_temp - 32)/1.8
+      } else {
+        state.AllWeather.consolidated_weather.forEach(weather => {
+          weather.the_temp = (weather.the_temp*1.8) + 32
+          weather.max_temp = (weather.max_temp*1.8) + 32
+          weather.min_temp = (weather.min_temp*1.8) + 32
+        });
+      }
+    },
   },
   actions: {
     WeatherDefault({ commit }) {
@@ -25,24 +45,16 @@ export default createStore({
           "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/44418/"
         )
         .then((response) => {
-          console.log("here")
           commit("SET_WEATHER", response.data);
         });
     },
-    WeatherByLocation({ commit }, positions) {
+    SearchPosition({ dispatch }, positions) {
       axios
         .get(
           `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?lattlong=${positions.latitude},${positions.longitude}`
         )
         .then((response) => {
-          let woeid = response.data[0].woeid;
-          axios
-            .get(
-              `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}`
-            )
-            .then((response) => {
-              commit("SET_WEATHER", response.data);
-            });
+          dispatch("WeatherByLocation", response.data[0].woeid);
         });
     },
     SearchLocations({ commit }, name) {
@@ -55,6 +67,15 @@ export default createStore({
         )
         .then((response) => {
           commit("SET_LOCATION", response.data);
+        });
+    },
+    WeatherByLocation({ commit }, woeid) {
+      axios
+        .get(
+          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}`
+        )
+        .then((response) => {
+          commit("SET_WEATHER", response.data);
         });
     },
   },

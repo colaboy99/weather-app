@@ -18,11 +18,13 @@
       <div class="day-temp">
         <span class="max-temp"
           >{{ parseInt(Weather.consolidated_weather[1].max_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
         <span class="min-temp"
           >{{ parseInt(Weather.consolidated_weather[1].min_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
       </div>
     </div>
@@ -48,11 +50,13 @@
       <div class="day-temp">
         <span class="max-temp"
           >{{ parseInt(Weather.consolidated_weather[2].max_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
         <span class="min-temp"
           >{{ parseInt(Weather.consolidated_weather[2].min_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
       </div>
     </div>
@@ -78,11 +82,13 @@
       <div class="day-temp">
         <span class="max-temp"
           >{{ parseInt(Weather.consolidated_weather[3].max_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
         <span class="min-temp"
           >{{ parseInt(Weather.consolidated_weather[3].min_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
       </div>
     </div>
@@ -108,11 +114,13 @@
       <div class="day-temp">
         <span class="max-temp"
           >{{ parseInt(Weather.consolidated_weather[4].max_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
         <span class="min-temp"
           >{{ parseInt(Weather.consolidated_weather[4].min_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
       </div>
     </div>
@@ -138,11 +146,13 @@
       <div class="day-temp">
         <span class="max-temp"
           >{{ parseInt(Weather.consolidated_weather[5].max_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
         <span class="min-temp"
           >{{ parseInt(Weather.consolidated_weather[5].min_temp)
-          }}<span class="degree">°C</span></span
+          }}<span class="degree" v-if="DegreeCelsius">°C</span
+          ><span class="degree" v-else>°F</span></span
         >
       </div>
     </div>
@@ -151,6 +161,7 @@
 
 <script>
 import moment from "moment";
+import { mapState } from "vuex";
 
 export default {
   name: "DaysInfo",
@@ -160,6 +171,7 @@ export default {
   created() {
     this.moment = moment;
   },
+  computed: mapState(["DegreeCelsius"]),
 };
 </script>
 
