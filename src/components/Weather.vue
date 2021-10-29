@@ -32,7 +32,8 @@
             ><span class="material-icons-round"> chevron_right </span>
           </li>
         </ul>
-        <ul v-else></ul>
+        <ul v-else class="location-list">
+        </ul>
       </div>
     </div>
     <div class="weather-type">
@@ -51,7 +52,7 @@
     <h2 class="weather-temp">
       {{ parseInt(Weather.consolidated_weather[0].the_temp)
       }}<span class="degree" v-if="DegreeCelsius">°C</span
-          ><span class="degree" v-else>°F</span>
+      ><span class="degree" v-else>°F</span>
     </h2>
     <h4 class="weather-name">
       {{ Weather.consolidated_weather[0].weather_state_name }}
@@ -121,8 +122,9 @@ export default {
           function (error) {
             if (error.code == 1) {
               alert(
-                "Sorry, You denied Geolocation permissions! Please reset permissions!"
+                "Sorry, You denied Geolocation permissions! Please allow Geolocation permissions."
               );
+              store.dispatch("WeatherDefault");
             }
           }
         );
@@ -131,7 +133,7 @@ export default {
       }
     },
   },
-  computed: mapState(["AllLocation","DegreeCelsius"]),
+  computed: mapState(["AllLocation", "DegreeCelsius"]),
 };
 </script>
 
@@ -258,7 +260,7 @@ export default {
         width: 100%;
         height: 75%;
         list-style: none;
-        padding: 60px 0;
+        margin: 50px 0;
         overflow: scroll;
         -ms-overflow-style: none; /* for Internet Explorer, Edge */
         scrollbar-width: none;

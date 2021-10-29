@@ -110,7 +110,7 @@ export default {
       align-items: center;
       row-gap: 50px;
       margin: 0 auto;
-      padding: 50px 0 25px 0;
+      padding: 30px 0 25px 0;
       overflow: initial;
       -ms-overflow-style: none;
       scrollbar-width: none;
@@ -194,7 +194,6 @@ export default {
   @media only screen and (min-width: 1280px) {
     .container-right-side {
       .weather-additional-info {
-        overflow: initial;
         align-items: normal;
         justify-content: space-between;
       }

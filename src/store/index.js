@@ -13,7 +13,6 @@ export default createStore({
     SET_WEATHER(state, weatherData) {
       state.AllWeather = weatherData;
       state.dataStatus = true;
-      console.log(state.AllWeather);
     },
     SET_LOCATION(state, locationData) {
       state.AllLocation = locationData;
@@ -42,7 +41,7 @@ export default createStore({
     WeatherDefault({ commit }) {
       axios
         .get(
-          "https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/44418/"
+          "https://api.allorigins.win/raw?url=https://www.metaweather.com/api/location/44418/"
         )
         .then((response) => {
           commit("SET_WEATHER", response.data);
@@ -51,7 +50,7 @@ export default createStore({
     SearchPosition({ dispatch }, positions) {
       axios
         .get(
-          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?lattlong=${positions.latitude},${positions.longitude}`
+          `https://api.allorigins.win/raw?url=https://www.metaweather.com/api/location/search/?lattlong=${positions.latitude},${positions.longitude}`
         )
         .then((response) => {
           dispatch("WeatherByLocation", response.data[0].woeid);
@@ -60,7 +59,7 @@ export default createStore({
     SearchLocations({ commit }, name) {
       axios
         .get(
-          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/search/?query=${name.replace(
+          `https://api.allorigins.win/raw?url=https://www.metaweather.com/api/location/search/?query=${name.replace(
             /\s/g,
             "%20"
           )}`
@@ -72,7 +71,7 @@ export default createStore({
     WeatherByLocation({ commit }, woeid) {
       axios
         .get(
-          `https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}`
+          `https://api.allorigins.win/raw?url=https://www.metaweather.com/api/location/${woeid}`
         )
         .then((response) => {
           commit("SET_WEATHER", response.data);
