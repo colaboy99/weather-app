@@ -26,51 +26,44 @@
             class="location-item"
             v-for="(location, index) in AllLocation"
             :key="index"
-            @click="WeatherByLocation(location.woeid)"
+            @click="WeatherByLocation(location.name)"
           >
-            <span class="location-name">{{ location.title }}</span
+            <span class="location-name">{{ location.name }}</span
             ><span class="material-icons-round"> chevron_right </span>
           </li>
         </ul>
-        <ul v-else class="location-list">
-        </ul>
+        <ul v-else class="location-list"></ul>
       </div>
     </div>
     <div class="weather-type">
       <img
         :src="
           require('@/assets/img/' +
-            Weather.consolidated_weather[0].weather_state_name.replace(
-              / /g,
-              ''
-            ) +
+            Weather.current.condition.text.replace(/ /g, '') +
             '.png')
         "
-        alt="Shower"
+        :alt="Weather.current.condition.text"
       />
     </div>
-    <h2 class="weather-temp">
-      {{ parseInt(Weather.consolidated_weather[0].the_temp)
-      }}<span class="degree" v-if="DegreeCelsius">°C</span
-      ><span class="degree" v-else>°F</span>
+    <h2 class="weather-temp" v-if="DegreeCelsius">
+      {{ parseInt(Weather.current.temp_c) }}<span class="degree">°C</span>
+    </h2>
+    <h2 class="weather-temp" v-else>
+      {{ parseInt(Weather.current.temp_f) }}<span class="degree">°F</span>
     </h2>
     <h4 class="weather-name">
-      {{ Weather.consolidated_weather[0].weather_state_name }}
+      {{ Weather.current.condition.text }}
     </h4>
     <div class="weather-date-location">
       <p class="weather-date">
         <span>Today</span> ·
         <span>
-          {{
-            moment(Weather.consolidated_weather[0].applicable_date).format(
-              "ddd , DD MMM"
-            )
-          }}</span
+          {{ moment(Weather.location.localtime).format("ddd , DD MMM") }}</span
         >
       </p>
       <p class="weather-location">
         <span class="material-icons-round"> location_on </span>
-        <span>{{ Weather.title }}</span>
+        <span>{{ Weather.location.name }}</span>
       </p>
     </div>
   </div>
@@ -102,9 +95,9 @@ export default {
     SearchLocation: function () {
       store.dispatch("SearchLocations", this.searchContent);
     },
-    WeatherByLocation: function (woeid) {
+    WeatherByLocation: function (name) {
       store.state.dataStatus = false;
-      store.dispatch("WeatherByLocation", woeid);
+      store.dispatch("WeatherByLocation", name);
       this.isOpen = !this.isOpen;
     },
     WeatherByPosition: function () {
@@ -350,12 +343,15 @@ export default {
     font-weight: 600;
     line-height: 42px;
     color: $text-light-secondary;
+    text-align: center;
+    padding: 0 10px;
   }
 
   .weather-date-location {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     row-gap: 32px;
     font-size: 18px;
     font-weight: 600;

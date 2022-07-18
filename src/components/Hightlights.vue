@@ -4,7 +4,7 @@
     <div class="hightlights-item">
       <h4 class="hightlight-title">Wind status</h4>
       <span class="hightlight-value"
-        >{{ parseInt(Weather.consolidated_weather[0].wind_speed)
+        >{{ parseInt(Weather.current.wind_mph)
         }}<span class="hightlight-sign"> mph</span>
       </span>
       <div class="wind-direction">
@@ -13,16 +13,14 @@
             class="material-icons-round"
             :style="{
               transform:
-                'rotate(' +
-                parseInt(Weather.consolidated_weather[0].wind_direction) +
-                'deg)',
+                'rotate(' + parseInt(Weather.current.wind_degree) + 'deg)',
             }"
           >
             navigation
           </span>
         </div>
         <div class="wind-point">
-          {{ Weather.consolidated_weather[0].wind_direction_compass }}
+          {{ Weather.current.wind_dir }}
         </div>
       </div>
     </div>
@@ -30,13 +28,13 @@
     <div class="hightlights-item">
       <h4 class="hightlight-title">Humidity</h4>
       <span class="hightlight-value"
-        >{{ Weather.consolidated_weather[0].humidity }}
+        >{{ Weather.current.humidity }}
         <span class="hightlight-sign"> %</span>
       </span>
       <div class="humidity-bar">
         <div
           id="process"
-          :style="{ width: Weather.consolidated_weather[0].humidity + '%' }"
+          :style="{ width: Weather.current.humidity + '%' }"
         ></div>
         <div class="process-values">
           <span>0</span>
@@ -50,7 +48,7 @@
     <div class="hightlights-item">
       <h4 class="hightlight-title">Visibility</h4>
       <span class="hightlight-value"
-        >{{ parseFloat(Weather.consolidated_weather[0].visibility.toFixed(1)) }}
+        >{{ parseFloat(Weather.current.vis_miles.toFixed(1)) }}
         <span class="hightlight-sign"> miles</span>
       </span>
     </div>
@@ -58,7 +56,7 @@
     <div class="hightlights-item">
       <h4 class="hightlight-title">Air Pressure</h4>
       <span class="hightlight-value"
-        >{{ parseInt(Weather.consolidated_weather[0].air_pressure) }}
+        >{{ parseInt(Weather.current.pressure_mb) }}
         <span class="hightlight-sign"> mb</span>
       </span>
     </div>

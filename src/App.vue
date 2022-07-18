@@ -6,8 +6,20 @@
     <div class="container-right-side">
       <div class="weather-additional-info">
         <div class="change-temp-buttons">
-          <button id="celsius" :class="{ active: DegreeCelsius }" @click="ChangeDegree">°C</button>
-          <button id="fahrenheit" :class="{ active: !DegreeCelsius }" @click="ChangeDegree">°F</button>
+          <button
+            id="celsius"
+            :class="{ active: DegreeCelsius }"
+            @click="ChangeDegree"
+          >
+            °C
+          </button>
+          <button
+            id="fahrenheit"
+            :class="{ active: !DegreeCelsius }"
+            @click="ChangeDegree"
+          >
+            °F
+          </button>
         </div>
         <DaysInfo :Weather="AllWeather" />
         <h4 class="hightlights-title">Today's Hightlights</h4>
@@ -42,8 +54,7 @@ import store from "@/store/index.js";
 export default {
   name: "App",
   data: function () {
-    return {
-    };
+    return {};
   },
   components: {
     Weather,
@@ -74,10 +85,10 @@ export default {
   mounted() {},
   methods: {
     ChangeDegree: function () {
-      store.commit('ChangeDegree')
-    }
+      store.commit("ChangeDegree");
+    },
   },
-  computed: mapState(["AllWeather","DegreeCelsius"]),
+  computed: mapState(["AllWeather", "DegreeCelsius"]),
 };
 </script>
 

@@ -17,31 +17,17 @@ export default createStore({
     SET_LOCATION(state, locationData) {
       state.AllLocation = locationData;
       state.LocationStatus = true;
+      console.log(state.AllLocation);
     },
     ChangeDegree(state) {
-      state.DegreeCelsius = !state.DegreeCelsius
-      if (state.DegreeCelsius) {
-        state.AllWeather.consolidated_weather.forEach(weather => {
-          weather.the_temp = (weather.the_temp - 32)/1.8
-          weather.max_temp = (weather.max_temp - 32)/1.8
-          weather.min_temp = (weather.min_temp - 32)/1.8
-
-        });
-        //state.AllWeather.consolidated_weather[0].the_temp = (state.AllWeather.consolidated_weather[0].the_temp - 32)/1.8
-      } else {
-        state.AllWeather.consolidated_weather.forEach(weather => {
-          weather.the_temp = (weather.the_temp*1.8) + 32
-          weather.max_temp = (weather.max_temp*1.8) + 32
-          weather.min_temp = (weather.min_temp*1.8) + 32
-        });
-      }
+      state.DegreeCelsius = !state.DegreeCelsius;
     },
   },
   actions: {
     WeatherDefault({ commit }) {
       axios
         .get(
-          "https://api.allorigins.win/raw?url=https://www.metaweather.com/api/location/44418/"
+          "https://api.weatherapi.com/v1/forecast.json?key=74419b600fef4a8eb9e111632221707&q=Barcelona&days=5&aqi=no&alerts=no"
         )
         .then((response) => {
           commit("SET_WEATHER", response.data);
@@ -50,28 +36,25 @@ export default createStore({
     SearchPosition({ dispatch }, positions) {
       axios
         .get(
-          `https://api.allorigins.win/raw?url=https://www.metaweather.com/api/location/search/?lattlong=${positions.latitude},${positions.longitude}`
+          `https://api.weatherapi.com/v1/forecast.json?key=74419b600fef4a8eb9e111632221707&q=${positions.latitude},${positions.longitude}&days=5&aqi=no&alerts=no`
         )
         .then((response) => {
-          dispatch("WeatherByLocation", response.data[0].woeid);
+          dispatch("WeatherByLocation", response.data.location.name);
         });
     },
     SearchLocations({ commit }, name) {
       axios
         .get(
-          `https://api.allorigins.win/raw?url=https://www.metaweather.com/api/location/search/?query=${name.replace(
-            /\s/g,
-            "%20"
-          )}`
+          `https://api.weatherapi.com/v1/search.json?key=74419b600fef4a8eb9e111632221707&q=${name}`
         )
         .then((response) => {
           commit("SET_LOCATION", response.data);
         });
     },
-    WeatherByLocation({ commit }, woeid) {
+    WeatherByLocation({ commit }, name) {
       axios
         .get(
-          `https://api.allorigins.win/raw?url=https://www.metaweather.com/api/location/${woeid}`
+          `https://api.weatherapi.com/v1/forecast.json?key=74419b600fef4a8eb9e111632221707&q=${name}&days=5&aqi=no&alerts=no`
         )
         .then((response) => {
           commit("SET_WEATHER", response.data);
